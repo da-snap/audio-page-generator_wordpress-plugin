@@ -1,0 +1,35 @@
+div.audio-generator-view{
+
+}
+div.audio-box{
+    border: 1px solid #B8B8B8;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+div.download_audio{
+    float: right;
+    width: 20%;
+}
+div.audio-box  > div.caption_audio{
+    float: left;
+    width: 80%;
+}
+div.audio-box  > div.caption_audio > h2{
+    padding-bottom: 2px;
+}
+div.subtitle_audio{
+    width: 100%;
+    float: left;
+    margin-bottom: 5px;
+}
+div.subtitle_audio > h3{
+    padding-bottom: 2px;
+}
+div#page_navigation{
+    float: right;
+}
+div#page_navigation > a {
+    border: 1px solid #B8B8B8;
+    margin-right: 5px;
+    padding: 5px;
+}

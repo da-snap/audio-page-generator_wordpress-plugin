@@ -49,6 +49,11 @@ class ID3TagsReader {
     function ID3TagsReader() {}
 
     // functions
+
+	function getAvailabel23Tags(){
+		return $this->aTV23;
+	}
+
     function getTagsInfo($sFilepath) {
         // read source file
         $iFSize = filesize($sFilepath);
@@ -93,7 +98,7 @@ class ID3TagsReader {
 						$s .= mb_convert_encoding(hex2bin($contend), 
 														"UTF-8", "ISO-8859-1");
 					}
-                    $aInfo[$name] = $s;
+                    $aInfo[$tag] = $s;
                 }
             }
         }

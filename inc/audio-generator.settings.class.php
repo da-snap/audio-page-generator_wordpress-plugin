@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // disable direct access
+}
+
 class AudioGeneratorSettingsPage
 {
     /**
@@ -9,8 +14,9 @@ class AudioGeneratorSettingsPage
     /**
      * Start up
      */
-    public function __construct()
+    public function __construct($tags)
     {
+		$this->tags = $tags;
         add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'page_init' ) );
     }
@@ -22,9 +28,9 @@ class AudioGeneratorSettingsPage
     {
         // This page will be under "Settings"
         add_options_page(
-            'Settings Admin', 
-            'AudioGenerator Settings',
-            'manage_options', 
+            __('Settings Admin', 'audio-page-generatori'),
+            __('AudioGenerator Settings', 'audio-page-generator'),
+            'manage_options',
             'audioa-generator-settings',
             array( $this, 'create_admin_page' )
         );
@@ -65,14 +71,14 @@ class AudioGeneratorSettingsPage
 
         add_settings_section(
             'setting_section_id', // ID
-            'Customize Settings', // Title
+            __('Customize Settings', 'audio-page-generator'),
             array( $this, 'print_section_info' ), // Callback
             'audio-generator-setting-admin' // Page
         );  
 
         add_settings_field(
             'pagination_sites', // ID
-            'Wieviele eintrage soll  eine Seite haben?', // Title
+            __('How man Items shuld a page have?',  'audio-page-generator'),
             array( $this, 'pagination_sites_callback' ), // Callback
             'audio-generator-setting-admin', // Page
             'setting_section_id' // Section           
@@ -80,7 +86,7 @@ class AudioGeneratorSettingsPage
 
         add_settings_field(
             'upload_dir',
-            'Upload Dir',
+            __('Upload Dir', 'audio-page-generator'),
             array( $this, 'upload_dir_callback'),
             'audio-generator-setting-admin',
             'setting_section_id'
@@ -88,7 +94,7 @@ class AudioGeneratorSettingsPage
 
         add_settings_field(
             'download',
-            'Download Link',
+            __('Download Link', 'audio-page-generator'),
             array( $this, 'is_downloadable_callback'),
             'audio-generator-setting-admin',
             'setting_section_id'
@@ -96,8 +102,16 @@ class AudioGeneratorSettingsPage
 
         add_settings_field(
             'title_tag',
-            'Welcher Tag soll im Titel gezeigt werden:',
+            __('Which tag shuld shown in Titel:', 'audio-page-generator'),
             array( $this, 'title_tag_callback'),
+            'audio-generator-setting-admin',
+            'setting_section_id'
+        );
+
+        add_settings_field(
+            'subtitle_tag',
+            __('Which tag shuld shown in Subtitel:', 'audio-page-generator'),
+            array( $this, 'subtitle_tag_callback'),
             'audio-generator-setting-admin',
             'setting_section_id'
         );
@@ -124,6 +138,8 @@ class AudioGeneratorSettingsPage
         }
         if( isset( $input['title_tag'] ) )
             $new_input['title_tag'] = sanitize_text_field( $input['title_tag'] );
+        if( isset( $input['subtitle_tag'] ) )
+            $new_input['subtitle_tag'] = sanitize_text_field( $input['subtitle_tag'] );
 
         return $new_input;
     }
@@ -133,7 +149,7 @@ class AudioGeneratorSettingsPage
      */
     public function print_section_info()
     {
-        print 'Enter your settings below:';
+        //print 'Enter your settings below:';
     }
 
     /** 
@@ -164,14 +180,20 @@ class AudioGeneratorSettingsPage
 
     public function title_tag_callback()
     {
-        printf(
-            '<select id="title_tag" name="audio-generator_name[title_tag]">
-                  <option value="">Select...</option>
-                  <option value="title" %s>Title</option>
-                  <option value="author">Author</option>
-                  <option value="album">album</option>
-            </select>',
-            isset($this->options['title_tag']) ? 'selected' : ''
-        );
+        printf('<select id="title_tag" name="audio-generator_name[title_tag]">');
+		printf('<option value="">Select...</option>');
+		foreach( $this->tags as  $key => $tag ) {
+			printf('<option value="' . $key . '" %s>'. $tag . '</option>', 
+					$this->options['title_tag'] == $key ? 'selected' : '');
+		}
+    }
+    public function subtitle_tag_callback()
+    {
+        printf('<select id="subtitle_tag" name="audio-generator_name[subtitle_tag]">');
+		printf('<option value="">Select...</option>');
+		foreach( $this->tags as  $key => $tag ) {
+			printf('<option value="' . $key . '" %s>'. $tag . '</option>', 
+					$this->options['subtitle_tag'] == $key ? 'selected' : '');
+		}
     }
 }
