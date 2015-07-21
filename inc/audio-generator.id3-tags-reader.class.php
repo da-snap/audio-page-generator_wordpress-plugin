@@ -27,22 +27,13 @@ class ID3TagsReader {
         'TCOM' => 'Composer'
     );
     var $aTV22 = array( // array of possible sys tags (for old version of ID3)
-        'TT2',
-        'TAL',
-        'TP1',
-        'TRK',
-        'TYE',
-        'TLE',
-        'ULT'
-    );
-    var $aTV22t = array( // array of titles for sys tags
-        'Title',
-        'Album',
-        'Author',
-        'Track',
-        'Year',
-        'Lenght',
-        'Lyric'
+        'TT2' => 'Title',
+        'TAL' => 'Album',
+        'TP1' => 'Author',
+        'TRK' => 'Track',
+        'TYE' => 'Year',
+        'TLE' => 'Lenght',
+        'ULT' => 'Lyric',
     );
 
     // constructor
@@ -70,9 +61,7 @@ class ID3TagsReader {
 
         // passing through possible tags of idv2 (v3 and v4)
         if ($aInfo['Version'] == '4.0' || $aInfo['Version'] == '3.0') {
-            #for ($i = 0; $i < count($this->aTV23); $i++) {
 			foreach ($this->aTV23 as $tag => $name){ 
-				#$tag = $this->aTV23[$i];
                 if (strpos($sSrc, $tag . chr(0)) != FALSE) {
 
                     $s = '';
@@ -84,12 +73,14 @@ class ID3TagsReader {
 					if($iEnc) { //is Unicode
 						if(strpos(bin2hex($data),"fffe") !== false){ 
 							//LittleEndian
-							$contend = array_pop(explode("fffe", bin2hex($data)));
+							$aData = explode("fffe", bin2hex($data));
+							$contend = array_pop($aData);
 							$s .= mb_convert_encoding(hex2bin($contend), 
 														"UTF-8", "UTF-16LE");
 						}else{
 							//BigEndian
-							$contend = array_pop(explode("feff", bin2hex($data)));
+							$aData = explode("feff", bin2hex($data));
+							$contend = array_pop($aData);
 							$s .= mb_convert_encoding(hex2bin($contend), 
 														"UTF-8", "UTF-16BE");
 						}
@@ -105,11 +96,11 @@ class ID3TagsReader {
 
         // passing through possible tags of idv2 (v2)
         if($aInfo['Version'] == '2.0') {
-            for ($i = 0; $i < count($this->aTV22); $i++) {
-                if (strpos($sSrc, $this->aTV22[$i].chr(0)) != FALSE) {
+            foreach ($this->aTV22 as $tag => $name) {
+                if (strpos($sSrc, $tag . chr(0)) != FALSE) {
 
                     $s = '';
-                    $iPos = strpos($sSrc, $this->aTV22[$i].chr(0));
+                    $iPos = strpos($sSrc, $tag.chr(0));
                     $iLen = hexdec(bin2hex(substr($sSrc,($iPos + 3),3)));
 
                     $data = substr($sSrc, $iPos, 6 + $iLen);
@@ -119,12 +110,12 @@ class ID3TagsReader {
                             $s .= $char;
                     }
 
-                    if (substr($s, 0, 3) == $this->aTV22[$i]) {
+                    if (substr($s, 0, 3) == $tag) {
                         $iSL = 3;
-                        if ($this->aTV22[$i] == 'ULT') {
+                        if ($tag == 'ULT') {
                             $iSL = 6;
                         }
-                        $aInfo[$this->aTV22t[$i]] = substr($s, $iSL);
+                        $aInfo[$tag] = substr($s, $iSL);
                     }
                 }
             }

@@ -31,9 +31,7 @@ class AudioPageGeneratorPlugin {
     }
 
     public function __construct() {
-		load_plugin_textdomain( 'audio-page-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
-
-		//$this->load_textdomain();
+		$this->load_textdomain();
         $this->define_constants();
         $this->includes();
         $this->setup_shortcode();
@@ -42,7 +40,6 @@ class AudioPageGeneratorPlugin {
     }
 
 	private function load_textdomain() {
-		print("test");
 		load_plugin_textdomain( 'audio-page-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ); 
 	}
 
@@ -82,7 +79,6 @@ class AudioPageGeneratorPlugin {
     }
     
     public function show_audio_page( $atts ) {
-		return get_locale();
         $options = get_option('audio-generator_name');
         wp_enqueue_script( 'Pagination', plugins_url('/js/pagination.js' , __FILE__ ) );
         wp_enqueue_style( 'audio_page_style', plugins_url('/css/audio_page_style.css', __FILE__ )  );

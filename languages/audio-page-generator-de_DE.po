@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: audio-page-generator_wordpress-plugin\n"
 "POT-Creation-Date: 2015-07-21 14:07+0100\n"
-"PO-Revision-Date: 2015-07-21 14:54+0100\n"
+"PO-Revision-Date: 2015-07-21 15:04+0100\n"
 "Last-Translator: Daniel Supplieth\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../inc/audio-generator.settings.class.php:31
 msgid "Settings Admin"
-msgstr "Einstellungen"
+msgstr "Einstellungen AudioGenerator"
 
 #: ../inc/audio-generator.settings.class.php:32
 msgid "AudioGenerator Settings"
-msgstr "AudiGenerator Einstellungen"
+msgstr "AudioGenerator Einstellungen"
 
 #: ../inc/audio-generator.settings.class.php:74
 msgid "Customize Settings"
