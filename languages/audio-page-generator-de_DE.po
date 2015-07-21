@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: audio-page-generator_wordpress-plugin\n"
-"POT-Creation-Date: 2015-07-21 14:07+0100\n"
-"PO-Revision-Date: 2015-07-21 15:04+0100\n"
+"POT-Creation-Date: 2015-07-21 15:45+0100\n"
+"PO-Revision-Date: 2015-07-21 15:50+0100\n"
 "Last-Translator: Daniel Supplieth\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -16,6 +16,14 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPath-1: inc/*.php\n"
+
+#: ../audio-page-generator.php:86
+msgid "Next"
+msgstr "Weiter"
+
+#: ../audio-page-generator.php:87
+msgid "Prev"
+msgstr "Zurück"
 
 #: ../inc/audio-generator.settings.class.php:31
 msgid "Settings Admin"
@@ -51,4 +59,6 @@ msgstr "Welcher Tag soll im Subtitel gezeigt werden:"
 
 #: ../inc/audio-generator.settings.class.php:153
 msgid "Put [audiGenerator] in our side, where the Tracks shuld be shown"
-msgstr "Plaziere [audioGenerator] an der Position, wo die Dateien angezeigt werden sollen."
+msgstr ""
+"Plaziere [audioGenerator] an der Position, wo die Dateien angezeigt werden "
+"sollen."
