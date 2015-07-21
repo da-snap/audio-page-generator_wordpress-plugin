@@ -150,6 +150,8 @@ class AudioGeneratorSettingsPage
     public function print_section_info()
     {
         //print 'Enter your settings below:';
+		_e('Put [audiGenerator] in our side, where the Tracks shuld be shown', 
+					'audio-page-generator.');
     }
 
     /** 

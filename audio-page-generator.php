@@ -31,13 +31,20 @@ class AudioPageGeneratorPlugin {
     }
 
     public function __construct() {
+		load_plugin_textdomain( 'audio-page-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
 
+		//$this->load_textdomain();
         $this->define_constants();
         $this->includes();
         $this->setup_shortcode();
         $this->register_admin_menu();
 
     }
+
+	private function load_textdomain() {
+		print("test");
+		load_plugin_textdomain( 'audio-page-generator', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ); 
+	}
 
     private function define_constants() {
 
@@ -75,20 +82,23 @@ class AudioPageGeneratorPlugin {
     }
     
     public function show_audio_page( $atts ) {
+		return get_locale();
         $options = get_option('audio-generator_name');
         wp_enqueue_script( 'Pagination', plugins_url('/js/pagination.js' , __FILE__ ) );
         wp_enqueue_style( 'audio_page_style', plugins_url('/css/audio_page_style.css', __FILE__ )  );
-        $upload_dir = wp_upload_dir()['path'];
-        $upload_dir .= "/*.mp3";
-        $files = glob($upload_dir);
+        $upload_dir = $options['upload_dir'];
+        $upload_dir_mp3 = $upload_dir . "/*.mp3";
+        $files = glob($upload_dir_mp3);
         // new object of our ID3TagsReader class
         $oReader = new ID3TagsReader();
         // passing through located files ..
         $sList = '<input type="hidden" id="current_page" /><input type="hidden" id="show_per_page" /><div class="audio-generator-view" id="wrapper">';
+		$site = get_site_url();
         foreach ($files as $sSingleFile) {
-            $url = wp_upload_dir()['url'];
             $file_parts = explode( '/', $sSingleFile );
-            $link = $url . '/' . end($file_parts);
+			$link = explode('wp-content', $upload_dir);
+			$link = $site . '/wp-content'. $link[1] . '/' . end($file_parts);
+			//return $link;
             $conf = array(
                 'src'      => $link ,
                 'loop'     => '',
