@@ -33,3 +33,7 @@ div#page_navigation > a {
     margin-right: 5px;
     padding: 5px;
 }
+
+div#page_navigation > .active_page {
+    background-color: #E4E4E4;
+}

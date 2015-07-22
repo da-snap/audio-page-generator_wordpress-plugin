@@ -54,6 +54,7 @@ class AudioPageGeneratorPlugin {
 
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.settings.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.id3-tags-reader.class.php';
+        //include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.download.class.php';
 
     }
     
@@ -102,34 +103,43 @@ class AudioPageGeneratorPlugin {
 				 .'<input type="hidden" id="show_per_page" />'
 				 .'<div id="audio-generator-view">';
 		$site = get_site_url();
-        foreach ($files as $sSingleFile) {
+		//Sort by creation time
+		$sortFiles = array();
+		foreach ($files as $sSingleFile){
+			$key = filectime($sSingleFile);
+			$sortFiles[$key] = $sSingleFile;
+		}
+		krsort($sortFiles);
+        foreach ($sortFiles as $sSingleFile) {
             $file_parts = explode( '/', $sSingleFile );
 			$link = explode('wp-content', $upload_dir);
-			$link = $site . '/wp-content'. $link[1] . '/' . end($file_parts);
+			$link = $site . '/wp-content'. $link[1] . '/' . rawurlencode(end($file_parts));
 			//return $link;
             $conf = array(
-                'src'      => $link ,
+                'src'      => $link,
                 'loop'     => '',
                 'autoplay' => '',
                 'preload' => 'none'
             );
             $player = wp_audio_shortcode( $conf );
             $aTags = $oReader->getTagsInfo($sSingleFile); // obtaining ID3 tags info
-			$download_link = '<a href="' . esc_url($link) . '">Download MP3</a>';
-			$sList .= '<div class="audio-box"><div class="caption_audio"><h2>'.
-						esc_html($aTags[$options['title_tag']]) .
-						'</h2></div>';
+			$download_link = '<a href="'
+				.plugins_url('inc/audio-generator.download.class.php' ,__FILE__) 
+				.'?file=' . $link . '">Download MP3</a>';
+			$sList .= '<div class="audio-box"><div class="caption_audio"><h2>'
+				.esc_html($aTags[$options['title_tag']])
+				.'</h2></div>';
 			if($options['download']){
 				$sList .= '<div class="download_audio">'
-					. $download_link . '</div>';
+						  .$download_link . '</div>';
 			}
 			$sList .= '<div class="subtitle_audio"><h3>'
-						. esc_html($aTags[$options['subtitle_tag']]) . '</h3>05.06.2015</div>'
-						. $player . '</div>';
+				.esc_html($aTags[$options['subtitle_tag']]) . '</h3>'
+				.date ("d.m.Y ", filectime($sSingleFile)) . '</div>'
+				.$player . '</div>';
         }
         $sList .= '</div><div id="page_navigation"></div>';
         return $sList;
-        
     }
 }
 
