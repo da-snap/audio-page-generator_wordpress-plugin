@@ -28,7 +28,7 @@ class AudioGeneratorSettingsPage
     {
         // This page will be under "Settings"
         add_options_page(
-            __('Settings Admin', 'audio-page-generatori'),
+            __('Settings Admin', 'audio-page-generator'),
             __('AudioGenerator Settings', 'audio-page-generator'),
             'manage_options',
             'audioa-generator-settings',
@@ -150,7 +150,7 @@ class AudioGeneratorSettingsPage
     public function print_section_info()
     {
         //print 'Enter your settings below:';
-		_e('Put [audiGenerator] in our side, where the Tracks shuld be shown', 
+		_e('Put [audioGenerator] in our side, where the Tracks shuld be shown',
 					'audio-page-generator.');
     }
 

@@ -75,18 +75,18 @@ class ID3TagsReader {
 							//LittleEndian
 							$aData = explode("fffe", bin2hex($data));
 							$contend = array_pop($aData);
-							$s .= mb_convert_encoding(hex2bin($contend), 
+							$s .= mb_convert_encoding(pack("H*", $contend),
 														"UTF-8", "UTF-16LE");
 						}else{
 							//BigEndian
 							$aData = explode("feff", bin2hex($data));
 							$contend = array_pop($aData);
-							$s .= mb_convert_encoding(hex2bin($contend), 
+							$s .= mb_convert_encoding(pack("H*", $contend),
 														"UTF-8", "UTF-16BE");
 						}
 					}else{
 						$contend = array_pop(explode("00", bin2hex($data)));
-						$s .= mb_convert_encoding(hex2bin($contend), 
+						$s .= mb_convert_encoding(pack("H*", $contend),
 														"UTF-8", "ISO-8859-1");
 					}
                     $aInfo[$tag] = $s;
