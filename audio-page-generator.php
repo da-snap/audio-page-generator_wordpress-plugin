@@ -20,7 +20,7 @@ if ( ! class_exists( 'AudioPageGeneratorPlugin' ) ) :
 
 class AudioPageGeneratorPlugin {
 
-    public $version = '0.1';
+    public $version = '0.2';
 
     public $generat = null;
 
@@ -53,9 +53,7 @@ class AudioPageGeneratorPlugin {
 
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.settings.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.generate_page.class.php';
-        include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.id3-tags-reader.class.php';
-        include AUDIOPAGEGENERATOR_PATH . 'PHP-ID3/PhpId3/Id3TagsReader.php';
-        //include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.download.class.php';
+        include AUDIOPAGEGENERATOR_PATH . 'getid3/getid3.php';
 
     }
 
@@ -74,9 +72,7 @@ class AudioPageGeneratorPlugin {
 
         if( is_admin() ) {
 
-			$TagsReader = new ID3TagsReader();
-			$aAvailabelTags = $TagsReader->getAvailabel23Tags();
-			$my_settings_page = new AudioGeneratorSettingsPage($aAvailabelTags);
+			$my_settings_page = new AudioGeneratorSettingsPage();
 
         }
 

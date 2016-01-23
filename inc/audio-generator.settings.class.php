@@ -14,9 +14,27 @@ class AudioGeneratorSettingsPage
     /**
      * Start up
      */
-    public function __construct($tags)
+    public function __construct()
     {
-		$this->tags = $tags;
+		$this->tags = array( // array of possible sys tags (for last version of ID3)
+			'title' => 'Title',
+			'album' => 'Album',
+			'artist' => 'Author',
+			'band' => 'AlbumAuthor',
+			'track_number' => 'Track',
+			'year' => 'Year',
+			'length' => 'Length',
+			'unsynchronised_lyric' => 'Lyrict',
+			'part_of_a_set' => 'Desc',
+			'genre' => 'Genre',
+			'encoded_by' => 'Encoded',
+			'copyright_message' => 'Copyright',
+			'publisher' => 'Publisher',
+			'original_artist' => 'OriginalArtist',
+			'url_user' => 'URL',
+			'comment' => 'Comments',
+			'composer' => 'Composer'
+		);
         add_action( 'admin_menu', array( $this, 'add_plugin_page' ) );
         add_action( 'admin_init', array( $this, 'page_init' ) );
     }

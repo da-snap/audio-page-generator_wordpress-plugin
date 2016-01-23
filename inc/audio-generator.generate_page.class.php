@@ -20,8 +20,6 @@ class  AudioGeneratorAudioPage {
         $upload_dir = $options['upload_dir'];
         $upload_dir_mp3 = $upload_dir . "/*.mp3";
         $files = glob($upload_dir_mp3);
-        // new object of our ID3TagsReader class
-        $oReader = new ID3TagsReader();
         // passing through located files ..
 		$sList = '<input type="hidden" id="current_page" />'
 				.'<input type="hidden" id="show_per_page" />'
@@ -34,11 +32,10 @@ class  AudioGeneratorAudioPage {
 			$sortFiles[$key] = $sSingleFile;
 		}
 		krsort($sortFiles);
+		$getID3 = new getID3;
         foreach ($sortFiles as $sSingleFile) {
             $file_parts = explode( '/', $sSingleFile );
 			$link = explode('wp-content', $upload_dir);
-			$link = $site . '/wp-content'. $link[1] . '/' . rawurlencode(end($file_parts));
-			//return $link;
             $conf = array(
                 'src'      => $link,
                 'loop'     => '',
@@ -46,26 +43,20 @@ class  AudioGeneratorAudioPage {
                 'preload' => 'none'
             );
             $player = wp_audio_shortcode( $conf );
-            $aTags = $oReader->getTagsInfo($sSingleFile); // obtaining ID3 tags info
-			$id3 = new PhpId3\Id3TagsReaderTest(fopen($sSingleFile, "rb"));
-			$id3->readAllTags();
-			foreach($id3->getId3Array() as $key => $value) {
-				if( $key !== "APIC" ) { //Skip Image data
-					echo $value["fullTagName"] . ": " . $value["Body"] . "<br />";
-				}
-			}
+			$aTags = $getID3->analyze($sSingleFile);
+			$aTags = $aTags['tags']['id3v2'];
 			$download_link = '<a href="'
 				.plugins_url('inc/audio-generator.download.class.php' ,__FILE__)
 				.'?file=' . $link . '">Download MP3</a>';
 			$sList .= '<div class="audio-box"><div class="caption_audio"><h2>'
-				.esc_html($aTags[$options['title_tag']])
+				.esc_html($aTags[$options['title_tag']][0])
 				.'</h2></div>';
 			if($options['download']){
 				$sList .= '<div class="download_audio">'
 						.$download_link . '</div>';
 			}
 			$sList .= '<div class="subtitle_audio"><h3>'
-				.esc_html($aTags[$options['subtitle_tag']]) . '</h3>'
+				.esc_html($aTags[$options['subtitle_tag']][0]) . '</h3>'
 				.date ("d.m.Y ", filectime($sSingleFile)) . '</div>'
 				.$player . '</div>';
         }
