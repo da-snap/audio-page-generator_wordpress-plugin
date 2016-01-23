@@ -47,6 +47,13 @@ class  AudioGeneratorAudioPage {
             );
             $player = wp_audio_shortcode( $conf );
             $aTags = $oReader->getTagsInfo($sSingleFile); // obtaining ID3 tags info
+			$id3 = new PhpId3\Id3TagsReaderTest(fopen($sSingleFile, "rb"));
+			$id3->readAllTags();
+			foreach($id3->getId3Array() as $key => $value) {
+				if( $key !== "APIC" ) { //Skip Image data
+					echo $value["fullTagName"] . ": " . $value["Body"] . "<br />";
+				}
+			}
 			$download_link = '<a href="'
 				.plugins_url('inc/audio-generator.download.class.php' ,__FILE__)
 				.'?file=' . $link . '">Download MP3</a>';

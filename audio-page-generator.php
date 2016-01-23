@@ -54,6 +54,7 @@ class AudioPageGeneratorPlugin {
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.settings.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.generate_page.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.id3-tags-reader.class.php';
+        include AUDIOPAGEGENERATOR_PATH . 'PHP-ID3/PhpId3/Id3TagsReader.php';
         //include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.download.class.php';
 
     }
