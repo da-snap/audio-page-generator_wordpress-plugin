@@ -14,7 +14,7 @@ class ID3TagsReader {
         'TPE2' => 'AlbumAuthor',
         'TRCK' => 'Track',
         'TYER' => 'Year',
-        'TLEN' => 'Lenght',
+        'TLEN' => 'Length',
         'USLT' => 'Lyric',
         'TPOS' => 'Desc',
         'TCON' => 'Genre',
@@ -32,7 +32,7 @@ class ID3TagsReader {
         'TP1' => 'Author',
         'TRK' => 'Track',
         'TYE' => 'Year',
-        'TLE' => 'Lenght',
+        'TLE' => 'Length',
         'ULT' => 'Lyric',
     );
 
@@ -61,7 +61,7 @@ class ID3TagsReader {
 
         // passing through possible tags of idv2 (v3 and v4)
         if ($aInfo['Version'] == '4.0' || $aInfo['Version'] == '3.0') {
-			foreach ($this->aTV23 as $tag => $name){ 
+			foreach ($this->aTV23 as $tag => $name){
                 if (strpos($sSrc, $tag . chr(0)) != FALSE) {
 
                     $s = '';
@@ -71,7 +71,7 @@ class ID3TagsReader {
 
                     $data = substr($sSrc, $iPos, 9 + $iLen);
 					if($iEnc) { //is Unicode
-						if(strpos(bin2hex($data),"fffe") !== false){ 
+						if(strpos(bin2hex($data),"fffe") !== false){
 							//LittleEndian
 							$aData = explode("fffe", bin2hex($data));
 							$contend = array_pop($aData);

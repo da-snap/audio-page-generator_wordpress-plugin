@@ -45,13 +45,13 @@ class AudioGeneratorSettingsPage
         $this->options = get_option( 'audio-generator_name' );
         ?>
         <div class="wrap">
-            <h2>Generate Audio Settings</h2>           
+            <h2>Generate Audio Settings</h2>
             <form method="post" action="options.php">
             <?php
                 // This prints out all hidden setting fields
                 settings_fields( 'audio-generator_group' );
                 do_settings_sections('audio-generator-setting-admin' );
-                submit_button(); 
+                submit_button();
             ?>
             </form>
         </div>
@@ -62,7 +62,7 @@ class AudioGeneratorSettingsPage
      * Register and add settings
      */
     public function page_init()
-    {        
+    {
         register_setting(
             'audio-generator_group', // Option group
             'audio-generator_name', // Option name
@@ -74,15 +74,15 @@ class AudioGeneratorSettingsPage
             __('Customize Settings', 'audio-page-generator'),
             array( $this, 'print_section_info' ), // Callback
             'audio-generator-setting-admin' // Page
-        );  
+        );
 
         add_settings_field(
             'pagination_sites', // ID
             __('How man Items shuld a page have?',  'audio-page-generator'),
             array( $this, 'pagination_sites_callback' ), // Callback
             'audio-generator-setting-admin', // Page
-            'setting_section_id' // Section           
-        );      
+            'setting_section_id' // Section
+        );
 
         add_settings_field(
             'upload_dir',
@@ -144,7 +144,7 @@ class AudioGeneratorSettingsPage
         return $new_input;
     }
 
-    /** 
+    /**
      * Print the Section text
      */
     public function print_section_info()
@@ -154,7 +154,7 @@ class AudioGeneratorSettingsPage
 					'audio-page-generator.');
     }
 
-    /** 
+    /**
      * Get the settings option array and print one of its values
      */
     public function pagination_sites_callback()
@@ -185,7 +185,7 @@ class AudioGeneratorSettingsPage
         printf('<select id="title_tag" name="audio-generator_name[title_tag]">');
 		printf('<option value="">Select...</option>');
 		foreach( $this->tags as  $key => $tag ) {
-			printf('<option value="' . $key . '" %s>'. $tag . '</option>', 
+			printf('<option value="' . $key . '" %s>'. $tag . '</option>',
 					$this->options['title_tag'] == $key ? 'selected' : '');
 		}
     }
@@ -194,7 +194,7 @@ class AudioGeneratorSettingsPage
         printf('<select id="subtitle_tag" name="audio-generator_name[subtitle_tag]">');
 		printf('<option value="">Select...</option>');
 		foreach( $this->tags as  $key => $tag ) {
-			printf('<option value="' . $key . '" %s>'. $tag . '</option>', 
+			printf('<option value="' . $key . '" %s>'. $tag . '</option>',
 					$this->options['subtitle_tag'] == $key ? 'selected' : '');
 		}
     }
