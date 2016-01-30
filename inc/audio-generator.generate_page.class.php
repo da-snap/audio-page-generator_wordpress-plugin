@@ -35,7 +35,9 @@ class  AudioGeneratorAudioPage {
 		$getID3 = new getID3;
         foreach ($sortFiles as $sSingleFile) {
             $file_parts = explode( '/', $sSingleFile );
+			$filename = end($file_parts);
 			$link = explode('wp-content', $upload_dir);
+			$link = $site . '/wp-content'. $link[1] . '/' . rawurlencode(end($file_parts));
             $conf = array(
                 'src'      => $link,
                 'loop'     => '',
@@ -46,8 +48,8 @@ class  AudioGeneratorAudioPage {
 			$aTags = $getID3->analyze($sSingleFile);
 			$aTags = $aTags['tags']['id3v2'];
 			$download_link = '<a href="'
-				.plugins_url('inc/audio-generator.download.class.php' ,__FILE__)
-				.'?file=' . $link . '">Download MP3</a>';
+				.admin_url ('admin-post.php')
+				.'?action=download&file=' . $filename . '">Download MP3</a>';
 			$sList .= '<div class="audio-box"><div class="caption_audio"><h2>'
 				.esc_html($aTags[$options['title_tag']][0])
 				.'</h2></div>';

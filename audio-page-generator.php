@@ -35,6 +35,7 @@ class AudioPageGeneratorPlugin {
         $this->define_constants();
         $this->includes();
         $this->setup_shortcode();
+        $this->add_actions();
         $this->register_admin_menu();
 
     }
@@ -53,10 +54,16 @@ class AudioPageGeneratorPlugin {
 
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.settings.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.generate_page.class.php';
+        include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.download.class.php';
         include AUDIOPAGEGENERATOR_PATH . 'getid3/getid3.php';
 
     }
 
+    private function add_actions() {
+        $DownloadClass = new Download();
+        add_action( 'admin_post_download', array( $DownloadClass, 'download_audio' ) );
+        add_action( 'admin_post_nopriv_download', array( $DownloadClass, 'download_audio' ) );
+    }
     /**
 	* Register the [audioGenerator] shortcode.
 	*/
