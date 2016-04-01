@@ -31,12 +31,13 @@ class AudioPageGeneratorPlugin {
     }
 
     public function __construct() {
+
 		$this->load_textdomain();
         $this->define_constants();
         $this->includes();
+        $this->register_admin_menu();
         $this->setup_shortcode();
         $this->add_actions();
-        $this->register_admin_menu();
 
     }
 
@@ -46,16 +47,21 @@ class AudioPageGeneratorPlugin {
 	}
 
     private function define_constants() {
-        define ( 'AUDIOPAGEGENERATOR_VERSION', $this->version );
-        define ( 'AUDIOPAGEGENERATOR_PATH', plugin_dir_path(__FILE__) );
+        global $wpdb;
+        define ( 'AG_VERSION', $this->version );
+        define ( 'AG_PATH', plugin_dir_path(__FILE__) );
+        define ( 'AG_PREF', "{$wpdb->prefix}ag_" );
     }
 
     private function includes() {
 
-        include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.settings.class.php';
-        include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.generate_page.class.php';
-        include AUDIOPAGEGENERATOR_PATH . 'inc/audio-generator.download.class.php';
-        include AUDIOPAGEGENERATOR_PATH . 'getid3/getid3.php';
+        require_once( AG_PATH . 'inc/audio-generator.manager.class.php' );
+        require_once( AG_PATH . 'inc/audio-generator.overview.class.php' );
+        require_once( AG_PATH . 'inc/audio-generator.settings.class.php' );
+        require_once( AG_PATH . 'inc/audio-generator.database.class.php' );
+        require_once( AG_PATH . 'inc/audio-generator.generate_page.class.php' );
+        require_once( AG_PATH . 'inc/audio-generator.download.class.php' );
+        require_once( AG_PATH . 'getid3/getid3.php' );
 
     }
 
@@ -64,6 +70,7 @@ class AudioPageGeneratorPlugin {
         add_action( 'admin_post_download', array( $DownloadClass, 'download_audio' ) );
         add_action( 'admin_post_nopriv_download', array( $DownloadClass, 'download_audio' ) );
     }
+
     /**
 	* Register the [audioGenerator] shortcode.
 	*/
@@ -80,6 +87,7 @@ class AudioPageGeneratorPlugin {
         if( is_admin() ) {
 
 			$my_settings_page = new AudioGeneratorSettingsPage();
+			$manager = new AudioGenerator_Manager();
 
         }
 
@@ -89,4 +97,7 @@ class AudioPageGeneratorPlugin {
 
 endif;
 
+
+require_once( plugin_dir_path(__FILE__) . 'inc/audio-generator.database.class.php' );
+AudioGenerator_Database::instance(__FILE__, '0.2');
 add_action( 'plugins_loaded', array( 'AudioPageGeneratorPlugin', 'init' ), 10);
