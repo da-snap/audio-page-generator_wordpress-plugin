@@ -39,6 +39,8 @@ class AudioPageGeneratorPlugin {
         $this->setup_shortcode();
         $this->add_actions();
 
+		$database = AudioGenerator_Database::instance(__FILE__, $version);
+		$database->reindex();
     }
 
 	private function load_textdomain() {
